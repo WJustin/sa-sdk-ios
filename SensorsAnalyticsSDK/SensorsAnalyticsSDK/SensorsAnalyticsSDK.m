@@ -38,6 +38,7 @@
 #import "SAAppExtensionDataManager.h"
 #import "SAKeyChainItemWrapper.h"
 #import "SASDKConfig.h"
+#import "UIViewController+AddAttributes.h"
 #define VERSION @"1.10.0"
 #define PROPERTY_LENGTH_LIMITATION 8191
 
@@ -2373,9 +2374,9 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
             NSString *screenName = NSStringFromClass([viewController class]);
             [properties setValue:screenName forKey:@"$screen_name"];
 
-            NSString *controllerTitle = viewController.navigationItem.title;
+            NSString *controllerTitle = viewController.sa_title;
             if (controllerTitle != nil) {
-                [properties setValue:viewController.navigationItem.title forKey:@"$title"];
+                [properties setValue:controllerTitle forKey:@"$title"];
             }
 
             //再获取 controller.navigationItem.titleView, 并且优先级比较高
@@ -2524,7 +2525,7 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
     
     @try {
         //先获取 controller.navigationItem.title
-        NSString *controllerTitle = controller.navigationItem.title;
+        NSString *controllerTitle = controller.sa_title;
         if (controllerTitle != nil) {
             [properties setValue:controllerTitle forKey:@"$title"];
         }
@@ -2637,9 +2638,9 @@ static void sa_imp_setJSResponderBlockNativeResponder(id obj, SEL cmd, id reactT
                     NSString *screenName = NSStringFromClass([viewController class]);
                     [properties setValue:screenName forKey:@"$screen_name"];
                     
-                    NSString *controllerTitle = viewController.navigationItem.title;
+                    NSString *controllerTitle = viewController.sa_title;
                     if (controllerTitle != nil) {
-                        [properties setValue:viewController.navigationItem.title forKey:@"$title"];
+                        [properties setValue:controllerTitle forKey:@"$title"];
                     }
                 }
                 
@@ -2819,9 +2820,9 @@ static void sa_imp_setJSResponderBlockNativeResponder(id obj, SEL cmd, id reactT
             NSString *screenName = NSStringFromClass([viewController class]);
             [properties setValue:screenName forKey:@"$screen_name"];
 
-            NSString *controllerTitle = viewController.navigationItem.title;
+            NSString *controllerTitle = viewController.sa_title;
             if (controllerTitle != nil) {
-                [properties setValue:viewController.navigationItem.title forKey:@"$title"];
+                [properties setValue:controllerTitle forKey:@"$title"];
             }
 
             //再获取 controller.navigationItem.titleView, 并且优先级比较高

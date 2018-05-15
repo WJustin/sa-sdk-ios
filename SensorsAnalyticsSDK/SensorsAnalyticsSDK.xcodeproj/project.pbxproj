@@ -197,6 +197,8 @@
 		A3EEDCE91C4E084200D1362F /* DemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3EEDCE81C4E084200D1362F /* DemoController.m */; };
 		A3F32BD01C57296700C3B98D /* SAValueTransformers.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F32BCF1C57296700C3B98D /* SAValueTransformers.m */; };
 		A3F32BD11C57302700C3B98D /* NSData+SABase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D14F1801B4A7B15006AD786 /* NSData+SABase64.m */; };
+		BA469A7420AAC172000AE45F /* UIViewController+AddAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = BA469A7220AAC172000AE45F /* UIViewController+AddAttributes.h */; };
+		BA469A7520AAC172000AE45F /* UIViewController+AddAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = BA469A7320AAC172000AE45F /* UIViewController+AddAttributes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -398,6 +400,8 @@
 		A3EEDCE71C4E081F00D1362F /* DemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoController.h; sourceTree = "<group>"; };
 		A3EEDCE81C4E084200D1362F /* DemoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoController.m; sourceTree = "<group>"; };
 		A3F32BCF1C57296700C3B98D /* SAValueTransformers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAValueTransformers.m; sourceTree = "<group>"; };
+		BA469A7220AAC172000AE45F /* UIViewController+AddAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AddAttributes.h"; sourceTree = "<group>"; };
+		BA469A7320AAC172000AE45F /* UIViewController+AddAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AddAttributes.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -618,6 +622,8 @@
 				004136091FFB4682009F2097 /* SAServerUrl.m */,
 				A15CBCA2208ED5D50014DE74 /* SASDKConfig.h */,
 				A15CBCA3208ED5D50014DE74 /* SASDKConfig.m */,
+				BA469A7220AAC172000AE45F /* UIViewController+AddAttributes.h */,
+				BA469A7320AAC172000AE45F /* UIViewController+AddAttributes.m */,
 			);
 			path = SensorsAnalyticsSDK;
 			sourceTree = "<group>";
@@ -705,6 +711,7 @@
 				A3746EAE1C318B65008A50A3 /* SAObjectSerializerConfig.h in Headers */,
 				A3746ECE1C32DCBF008A50A3 /* SAWebSocket.h in Headers */,
 				A3746E981C313C86008A50A3 /* SAObjectIdentityProvider.h in Headers */,
+				BA469A7420AAC172000AE45F /* UIViewController+AddAttributes.h in Headers */,
 				A3746EA81C318B54008A50A3 /* SAObjectSerializer.h in Headers */,
 				A3746E871C31196C008A50A3 /* SADesignerDeviceInfoMessage.h in Headers */,
 				0027C8451FA201CE002EA41B /* SAAbstractHeatMapMessage.h in Headers */,
@@ -809,7 +816,7 @@
 				TargetAttributes = {
 					4D0EB7BD1B47A88C0019FD21 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 75FYWDWHL5;
+						DevelopmentTeam = VNF7UTGW24;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -832,7 +839,7 @@
 					};
 					A1D1C5651FB445BC006685C1 = {
 						CreatedOnToolsVersion = 9.1;
-						DevelopmentTeam = VBGTEN3BX8;
+						DevelopmentTeam = VNF7UTGW24;
 						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
@@ -1014,6 +1021,7 @@
 				A3746E931C313A0D008A50A3 /* SADesignerSnapshotMessage.m in Sources */,
 				A3997A261C3AC1DE005A9374 /* SAObjectSelector.m in Sources */,
 				A3997A201C3ABCE3005A9374 /* SADesignerEventBindingMesssage.m in Sources */,
+				BA469A7520AAC172000AE45F /* UIViewController+AddAttributes.m in Sources */,
 				A3746ECF1C32DCBF008A50A3 /* SAWebSocket.m in Sources */,
 				A3997A341C3AC3B8005A9374 /* SAUIControlBinding.m in Sources */,
 				4D5CA77D1B43E92D00D7ACB7 /* SensorsAnalyticsSDK.m in Sources */,
@@ -1103,10 +1111,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HelloSensorsAnalytics/HelloSensorsAnalytics.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: jiang cao (E5479387PJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 75FYWDWHL5;
+				DEVELOPMENT_TEAM = VNF7UTGW24;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"SENSORS_ANALYTICS_IDFA=1",
 					"$(inherited)",
@@ -1127,10 +1135,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HelloSensorsAnalytics/HelloSensorsAnalytics.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: jiang cao (E5479387PJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 75FYWDWHL5;
+				DEVELOPMENT_TEAM = VNF7UTGW24;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"SENSORS_ANALYTICS_IDFA=1",
@@ -1341,7 +1349,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = VBGTEN3BX8;
+				DEVELOPMENT_TEAM = VNF7UTGW24;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SensorsDataSwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
@@ -1377,7 +1385,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VBGTEN3BX8;
+				DEVELOPMENT_TEAM = VNF7UTGW24;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = SensorsDataSwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
