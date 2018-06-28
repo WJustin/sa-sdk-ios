@@ -19,7 +19,7 @@ static char *const AddAttributesTitle;
 
 - (NSString *)sa_title {
     NSString *title = objc_getAssociatedObject(self, &AddAttributesTitle);
-    return title ?: (self.navigationItem.title ?: self.title);
+    return self.navigationItem.title ?: (self.title ?: title);
 }
 
 @end
