@@ -1399,6 +1399,7 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
 
 - (void)enqueueWithType:(NSString *)type andEvent:(NSDictionary *)e {
     NSMutableDictionary *event = [[NSMutableDictionary alloc] initWithDictionary:e];
+    [event addEntriesFromDictionary:@{@"time_free": @"true"}];
     NSMutableDictionary *properties = [[NSMutableDictionary alloc] initWithDictionary:[event objectForKey:@"properties"]];
     
     NSString *from_vtrack = [properties objectForKey:@"$from_vtrack"];
