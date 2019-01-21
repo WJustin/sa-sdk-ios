@@ -17,6 +17,8 @@
 #import "AutoTrackUtils.h"
 #import "UIView+SAHelpers.h"
 #import "UIView+AutoTrack.h"
+#import "UIViewController+AddAttributes.h"
+
 @implementation UIApplication (AutoTrack)
 
 - (BOOL)sa_sendAction:(SEL)action to:(id)to from:(id)from forEvent:(UIEvent *)event {
@@ -163,9 +165,9 @@
                 NSString *screenName = NSStringFromClass([viewController class]);
                 [properties setValue:screenName forKey:@"$screen_name"];
                 
-                NSString *controllerTitle = viewController.navigationItem.title;
+                NSString *controllerTitle = viewController.sa_title;
                 if (controllerTitle != nil) {
-                    [properties setValue:viewController.navigationItem.title forKey:@"$title"];
+                    [properties setValue:controllerTitle forKey:@"$title"];
                 }
                 //再获取 controller.navigationItem.titleView, 并且优先级比较高
                 NSString *elementContent = [[SensorsAnalyticsSDK sharedInstance] getUIViewControllerTitle:viewController];

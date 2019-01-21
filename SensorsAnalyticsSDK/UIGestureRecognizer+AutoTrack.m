@@ -17,6 +17,7 @@
 #import "AutoTrackUtils.h"
 #import "SALogger.h"
 #import <objc/runtime.h>
+#import "UIViewController+AddAttributes.h"
 
 @implementation UIGestureRecognizer (AutoTrack)
 
@@ -76,9 +77,9 @@
             NSString *screenName = NSStringFromClass([viewController class]);
             [properties setValue:screenName forKey:@"$screen_name"];
             
-            NSString *controllerTitle = viewController.navigationItem.title;
+            NSString *controllerTitle = viewController.sa_title;
             if (controllerTitle != nil) {
-                [properties setValue:viewController.navigationItem.title forKey:@"$title"];
+                [properties setValue:controllerTitle forKey:@"$title"];
             }
             
             //再获取 controller.navigationItem.titleView, 并且优先级比较高

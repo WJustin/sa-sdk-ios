@@ -48,6 +48,7 @@
 #import "NSThread+SAHelpers.h"
 #import "SACommonUtility.h"
 #import "UIGestureRecognizer+AutoTrack.h"
+#import "UIViewController+AddAttributes.h"
 
 #define VERSION @"1.10.21"
 
@@ -1425,6 +1426,7 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
 
 - (void)enqueueWithType:(NSString *)type andEvent:(NSDictionary *)e {
     NSMutableDictionary *event = [[NSMutableDictionary alloc] initWithDictionary:e];
+    [event addEntriesFromDictionary:@{@"time_free": @"true"}];
     [self.messageQueue addObejct:event withType:@"Post"];
 }
 
@@ -2588,9 +2590,9 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
             NSString *screenName = NSStringFromClass([viewController class]);
             [properties setValue:screenName forKey:@"$screen_name"];
 
-            NSString *controllerTitle = viewController.navigationItem.title;
+            NSString *controllerTitle = viewController.sa_title;
             if (controllerTitle != nil) {
-                [properties setValue:viewController.navigationItem.title forKey:@"$title"];
+                [properties setValue:controllerTitle forKey:@"$title"];
             }
 
             //再获取 controller.navigationItem.titleView, 并且优先级比较高
@@ -2841,9 +2843,9 @@ static void sa_imp_setJSResponderBlockNativeResponder(id obj, SEL cmd, id reactT
                     NSString *screenName = NSStringFromClass([viewController class]);
                     [properties setValue:screenName forKey:@"$screen_name"];
                     
-                    NSString *controllerTitle = viewController.navigationItem.title;
+                    NSString *controllerTitle = viewController.sa_title;
                     if (controllerTitle != nil) {
-                        [properties setValue:viewController.navigationItem.title forKey:@"$title"];
+                        [properties setValue:controllerTitle forKey:@"$title"];
                     }
                 }
                 
