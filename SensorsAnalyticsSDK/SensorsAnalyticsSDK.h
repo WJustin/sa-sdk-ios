@@ -26,6 +26,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^GSFetchUserAgentCallBack)(NSString *userAgent);
+
 @class SensorsAnalyticsPeople;
 
 /**
