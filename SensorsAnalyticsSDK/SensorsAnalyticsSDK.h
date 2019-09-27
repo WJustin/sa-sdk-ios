@@ -105,6 +105,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SensorsAnalyticsSDK : NSObject
 
+@property (nonatomic, copy) NSString *gs_appendUserAgent;
+
+- (void)gs_verifyUserAgentWithCallback:(nullable GSFetchUserAgentCallBack)callback;
+
 /**
  * @property
  *

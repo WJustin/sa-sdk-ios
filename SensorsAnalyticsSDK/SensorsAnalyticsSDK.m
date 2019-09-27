@@ -2647,24 +2647,56 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
     [self addWebViewUserAgentSensorsDataFlag:enableVerify userAgent:nil];
 }
 
-- (void)addWebViewUserAgentSensorsDataFlag:(BOOL)enableVerify userAgent:(nullable NSString *)userAgent{
-
-    void (^changeUserAgent)(BOOL verify, NSString *oldUserAgent) = ^void (BOOL verify, NSString *oldUserAgent) {
-        NSString *newAgent = oldUserAgent;
-        if ([oldUserAgent rangeOfString:@"sa-sdk-ios"].location == NSNotFound) {
-            if (verify) {
-                newAgent = [oldUserAgent stringByAppendingString:[NSString stringWithFormat: @" /sa-sdk-ios/sensors-verify/%@?%@ ", self.network.host, self.network.project]];
-            } else {
-                newAgent = [oldUserAgent stringByAppendingString:@" /sa-sdk-ios"];
-            }
+- (void)gs_verifyUserAgentWithCallback:(nullable GSFetchUserAgentCallBack)callback {
+    if (self.userAgent) {
+        if (callback) {
+            callback(self.userAgent);
         }
-        //使 newAgent 生效，并设置 userAgent
-        NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:newAgent, @"UserAgent", nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
-        self.userAgent = newAgent;
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    };
+    } else {
+#ifdef SENSORS_ANALYTICS_DISABLE_UIWEBVIEW
+        [self loadWKWebViewUserAgent:^(NSString *userAgent) {
+            [self gs_saveUserAgentWithVerify:YES oldUserAgent:userAgent];
+            if (callback) {
+                callback(self.userAgent);
+            }
+        }];
+#else
+        [self gs_saveUserAgentWithVerify:YES oldUserAgent:[self loadUserAgent]];
+        if (callback) {
+            callback(self.userAgent);
+        }
+#endif
+    }
+}
 
+- (void)gs_saveUserAgentWithVerify:(BOOL)verify oldUserAgent:(nullable NSString *)oldUserAgent {
+    if (!oldUserAgent) {
+        return;
+    }
+    NSString *newAgent = oldUserAgent;
+    if ([oldUserAgent rangeOfString:@"sa-sdk-ios"].location == NSNotFound) {
+        if (verify) {
+            newAgent = [oldUserAgent stringByAppendingString:[NSString stringWithFormat: @" /sa-sdk-ios/sensors-verify/%@?%@ ", self.network.host, self.network.project]];
+        } else {
+            newAgent = [oldUserAgent stringByAppendingString:@" /sa-sdk-ios"];
+        }
+        if (self.gs_appendUserAgent) {
+            newAgent = [newAgent stringByAppendingString:self.gs_appendUserAgent];
+        }
+    }
+    //使 newAgent 生效，并设置 userAgent
+    NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:newAgent, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    self.userAgent = newAgent;
+}
+
+- (void)addWebViewUserAgentSensorsDataFlag:(BOOL)enableVerify userAgent:(nullable NSString *)userAgent {
+    
+    void (^changeUserAgent)(BOOL verify, NSString *oldUserAgent) = ^void (BOOL verify, NSString *oldUserAgent) {
+        [self gs_saveUserAgentWithVerify:verify oldUserAgent:oldUserAgent];
+    };
+    
     dispatch_block_t mainThreadBlock = ^(){
         BOOL verify = enableVerify;
         @try {
@@ -2672,11 +2704,11 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
                 verify = NO;
             }
             NSString *oldAgent = userAgent.length > 0 ? userAgent : self.userAgent;
-
+            
 #ifdef SENSORS_ANALYTICS_DISABLE_UIWEBVIEW
             //禁用 UIWebView
             if (oldAgent) {
-                 changeUserAgent(verify, oldAgent);
+                changeUserAgent(verify, oldAgent);
             } else {
                 [self loadWKWebViewUserAgent:^(NSString *userAgent) {
                     changeUserAgent(verify, userAgent);
