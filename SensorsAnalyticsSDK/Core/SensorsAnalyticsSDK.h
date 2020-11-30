@@ -27,6 +27,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^GSFetchUserAgentCallBack)(NSString *userAgent);
+
 @class SensorsAnalyticsPeople;
 
 /**
@@ -105,6 +107,10 @@ NS_ASSUME_NONNULL_BEGIN
  * 它也提供了一个 SensorsAnalyticsPeople 类型的 property，用来访问用户 Profile 相关的 API。
  */
 @interface SensorsAnalyticsSDK : NSObject
+
+@property (nonatomic, copy) NSString *gs_appendUserAgent;
+
+- (void)gs_verifyUserAgentWithCallback:(nullable GSFetchUserAgentCallBack)callback;
 
 /**
  * @property

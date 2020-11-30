@@ -247,6 +247,41 @@ static SensorsAnalyticsSDK *sharedInstance = nil;
 
 @synthesize encryptBuilder = _encryptBuilder;
 
+- (void)gs_saveUserAgentWithVerify:(BOOL)verify oldUserAgent:(nullable NSString *)oldUserAgent {
+    if (!oldUserAgent) {
+        return;
+    }
+    NSString *newAgent = oldUserAgent;
+    if ([oldUserAgent rangeOfString:@"sa-sdk-ios"].location == NSNotFound) {
+        if (verify) {
+            newAgent = [oldUserAgent stringByAppendingString:[NSString stringWithFormat: @" /sa-sdk-ios/sensors-verify/%@?%@ ", self.network.host, self.network.project]];
+        } else {
+            newAgent = [oldUserAgent stringByAppendingString:@" /sa-sdk-ios"];
+        }
+        if (self.gs_appendUserAgent) {
+            newAgent = [newAgent stringByAppendingString:self.gs_appendUserAgent];
+        }
+    }
+    self.userAgent = newAgent;
+    [SACommonUtility saveUserAgent:self.userAgent];
+}
+
+- (void)gs_verifyUserAgentWithCallback:(GSFetchUserAgentCallBack)callback {
+    if (self.userAgent) {
+        if (callback) {
+            callback(self.userAgent);
+        }
+    } else {
+        [self loadUserAgentWithCompletion:^(NSString *userAgent) {
+            [self gs_saveUserAgentWithVerify:YES oldUserAgent:userAgent];
+            if (callback) {
+                callback(self.userAgent);
+            }
+        }];
+    }
+}
+
+
 #pragma mark - Initialization
 + (void)startWithConfigOptions:(SAConfigOptions *)configOptions {
     NSAssert(sensorsdata_is_same_queue(dispatch_get_main_queue()), @"神策 iOS SDK 必须在主线程里进行初始化，否则会引发无法预料的问题（比如丢失 $AppStart 事件）。");
@@ -2740,18 +2775,8 @@ static void sa_imp_setJSResponderBlockNativeResponder(id obj, SEL cmd, id reactT
 }
 
 - (void)addWebViewUserAgentSensorsDataFlag:(BOOL)enableVerify userAgent:(nullable NSString *)userAgent {
-    __weak typeof(self) weakSelf = self;
-    void (^ changeUserAgent)(BOOL verify, NSString *oldUserAgent) = ^void (BOOL verify, NSString *oldUserAgent) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        
-        NSString *newUserAgent = oldUserAgent;
-        if ([oldUserAgent rangeOfString:@"sa-sdk-ios"].location == NSNotFound) {
-            strongSelf.addWebViewUserAgent = verify ? [NSString stringWithFormat:@" /sa-sdk-ios/sensors-verify/%@?%@ ", strongSelf.network.host, strongSelf.network.project] : @" /sa-sdk-ios";
-            newUserAgent = [oldUserAgent stringByAppendingString:strongSelf.addWebViewUserAgent];
-        }
-        //使 newUserAgent 生效，并设置 newUserAgent
-        strongSelf.userAgent = newUserAgent;
-        [SACommonUtility saveUserAgent:newUserAgent];
+    void (^changeUserAgent)(BOOL verify, NSString *oldUserAgent) = ^void (BOOL verify, NSString *oldUserAgent) {
+        [self gs_saveUserAgentWithVerify:verify oldUserAgent:oldUserAgent];
     };
 
     BOOL verify = enableVerify;
